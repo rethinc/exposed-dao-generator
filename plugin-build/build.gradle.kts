@@ -1,12 +1,12 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildScript
 
 plugins {
     kotlin("jvm") version "1.9.0"
     `java-gradle-plugin`
+    id("com.gradle.plugin-publish") version "1.2.1"
 }
 
 group = "ch.rethinc"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -40,6 +40,11 @@ gradlePlugin {
         create("exposedDaoGenerator") {
             id = "ch.rethinc.exposed.generator"
             implementationClass = "ch.rethinc.exposed.generator.ExposedDaoGeneratorPlugin"
+            website = "https://github.com/rethinc/exposed-dao-generator"
+            vcsUrl = "https://github.com/rethinc/exposed-dao-generator"
+            displayName = "Exposed DAO Generator"
+            description = "Generates Data Access Objects from a database with JetBrains Exposed"
+            tags = listOf("exposed", "dao", "generator", "persistence")
         }
     }
 }
