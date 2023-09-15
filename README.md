@@ -6,7 +6,7 @@ Generates Data Access Objects from a database with JetBrains Exposed
 The easiest is to use the `plugins`-closure in your `build.gradle` file:
 ```gradle
 plugins {
-  id "ch.rethinc.exposed.generator"
+  id("ch.rethinc.exposed.generator") version "1.0.0"
 }
 ```
 
@@ -15,15 +15,16 @@ You can also install the plugin by using the traditional Gradle way:
 ```gradle
 buildscript {
   repositories {
-    gradlePluginPortal()
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
   }
-
   dependencies {
-    classpath "ch.rethinc.exposed.generator:exposed-dao-generator"
+    classpath("ch.rethinc:exposed-dao-generator:1.0.0")
   }
 }
 
-apply plugin: 'ch.rethinc.exposed.generator'
+apply(plugin = "ch.rethinc.exposed.generator")
 ```
 
 ## Usage
