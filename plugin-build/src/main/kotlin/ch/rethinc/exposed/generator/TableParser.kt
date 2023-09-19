@@ -38,7 +38,7 @@ object TableParser {
             val properties = classBody.children.filter { it.node.elementType == KtNodeTypes.PROPERTY }
 
             return Table(
-                packageName = packageDirective?.text ?: "ch.rethinc.persistence",
+                packageName = packageDirective?.lastChild?.text ?: "ch.rethinc.persistence",
                 name = objectName,
                 properties = properties.mapNotNull {
                     val name = it.namedUnwrappedElement?.name ?: return@mapNotNull null
