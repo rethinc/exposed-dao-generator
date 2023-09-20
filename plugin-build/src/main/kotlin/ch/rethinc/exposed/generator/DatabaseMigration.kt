@@ -65,7 +65,7 @@ class DatabaseMigration : AutoCloseable {
             }
         } finally {
             migrationContainerId?.let {
-//                dockerClient.removeContainerCmd(it).exec()
+                dockerClient.removeContainerCmd(it).exec()
             }
         }
     }
