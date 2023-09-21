@@ -2,7 +2,7 @@ package ch.rethinc.exposed.generator
 
 import java.io.File
 
-class Generator(
+class DaoGenerator(
     private val tableParser: TableParser,
     private val templates: Templates
 ) {
