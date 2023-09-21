@@ -2,7 +2,7 @@ package ch.rethinc.exposed.generator
 
 import java.io.File
 
-object Templates {
+object DaoTemplates {
     val templates = listOf(
         Template(name = "Entity"),
         Template(name = "DtoMapper"),

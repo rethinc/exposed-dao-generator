@@ -53,7 +53,7 @@ abstract class GenerateDaosTask : DefaultTask() {
             val generatedFilesDirectory = File("${outputDirectory.get().asFile.path}/$packageDirectory")
             postProcessTableFiles(generatedFilesDirectory)
             removeIgnoredColumns(generatedFilesDirectory, ignoredColumns.getOrElse(emptyList()))
-            DaoGenerator(TableParser, Templates).generateFiles(generatedFilesDirectory)
+            DaoGenerator(TableParser, DaoTemplates).generateFiles(generatedFilesDirectory)
         }
     }
 }

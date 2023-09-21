@@ -4,7 +4,7 @@ import java.io.File
 
 class DaoGenerator(
     private val tableParser: TableParser,
-    private val templates: Templates
+    private val templates: DaoTemplates
 ) {
     fun generateFiles(directory: File) {
         if (!directory.isDirectory) {
