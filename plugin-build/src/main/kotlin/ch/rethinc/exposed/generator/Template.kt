@@ -13,9 +13,9 @@ class Template(val name: String) {
         return filePath.endsWith("$name.kt")
     }
 
-    fun writeTo(table: Table, file: File) {
+    fun writeTo(model: Any, file: File) {
         val fs = OutputStreamWriter(FileOutputStream(file))
         val template = FreeMarkerConfiguration.fromClassPath.getTemplate("$name.ftlh")
-        template.process(table, fs)
+        template.process(model, fs)
     }
 }
