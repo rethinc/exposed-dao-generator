@@ -44,7 +44,7 @@ class PersistenceDefault : Persistence {
     override fun isConnected(): Boolean =
         try {
             transaction {
-                PersonEntity.all()
+                exec("SELECT 1")
             }
             true
         } catch (_: Throwable) {
