@@ -13,7 +13,7 @@ class DaoGenerator(
         val files = directory.listFiles() ?: throw IllegalArgumentException("Could not list files of ${directory.path}")
         files.filter {
             it.isKotlinFile()
-        }.filter { !templates.isGeneratedFile(it.path) }
+        }.filter { !templates.isGeneratedFile(it.path) && !InfrastructureTemplates.isGeneratedFile(it.path) }
             .forEach { tableFile ->
                 val table = tableParser.parse(tableFile)
                 templates.generateFiles(table, tableFile.path)
