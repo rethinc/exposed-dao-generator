@@ -27,6 +27,9 @@ abstract class GenerateDaosTask : DefaultTask() {
     abstract val migrationTimeoutMinutes: Property<Long>
 
     @get:Input
+    abstract val protectedTables: ListProperty<String>
+
+    @get:Input
     abstract val ignoredColumns: ListProperty<IgnoredColumn>
 
     @TaskAction
