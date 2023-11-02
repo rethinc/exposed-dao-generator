@@ -9,6 +9,8 @@ import org.jetbrains.exposed.sql.transactions.transaction
 interface Persistence {
     fun <T> execute(block: () -> T): T
 
+    fun <T> execute(userId: String, block: () -> T): T
+
     fun isConnected(): Boolean
 }
 
@@ -41,13 +43,20 @@ class PersistenceDefault : Persistence {
         }
     }
 
-    override fun isConnected(): Boolean =
-        try {
-            transaction {
-                exec("SELECT 1")
-            }
-            true
-        } catch (_: Throwable) {
-            false
+    override fun <T> execute(userId: String, block: () -> T): T {
+        return transaction {
+            this.exec("""SET LOCAL SESSION AUTHORIZATION "$userId";""")
+            block()
         }
+    }
+
+    override fun isConnected(): Boolean =
+    try {
+        transaction {
+            exec("SELECT 1")
+        }
+        true
+    } catch (_: Throwable) {
+        false
+    }
 }

@@ -10,7 +10,6 @@ object InfrastructureTemplates {
     val templates = listOf(
         InfrastructureTemplate(name = "GenericDao"),
         InfrastructureTemplate(name = "Persistence"),
-        InfrastructureTemplate(name = "AuthenticatedPersistence"),
         InfrastructureTemplate(name = "AuthenticatedGenericDao"),
     )
 

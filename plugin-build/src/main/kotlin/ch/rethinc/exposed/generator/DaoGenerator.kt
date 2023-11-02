@@ -4,7 +4,8 @@ import java.io.File
 
 class DaoGenerator(
     private val tableParser: TableParser,
-    private val templates: DaoTemplates
+    private val templates: DaoTemplates,
+    private val protectedTables: List<String>
 ) {
     fun generateFiles(directory: File) {
         if (!directory.isDirectory) {
@@ -16,7 +17,12 @@ class DaoGenerator(
         }.filter { !templates.isGeneratedFile(it.path) && !InfrastructureTemplates.isGeneratedFile(it.path) }
             .forEach { tableFile ->
                 val table = tableParser.parse(tableFile)
-                templates.generateFiles(table, tableFile.path)
+                if(protectedTables.contains(table.name)) {
+                    templates.generateProtectedFiles(table, tableFile.path)
+                }
+                else {
+                    templates.generateFiles(table, tableFile.path)
+                }
             }
     }
 

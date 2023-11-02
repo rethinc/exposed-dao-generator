@@ -57,7 +57,7 @@ abstract class GenerateDaosTask : DefaultTask() {
             postProcessTableFiles(generatedFilesDirectory)
             removeIgnoredColumns(generatedFilesDirectory, ignoredColumns.getOrElse(emptyList()))
             InfrastructureGenerator(InfrastructureTemplates).generateFiles(packageName.get(), generatedFilesDirectory)
-            DaoGenerator(TableParser, DaoTemplates).generateFiles(generatedFilesDirectory)
+            DaoGenerator(TableParser, DaoTemplates, protectedTables.getOrElse(emptyList())).generateFiles(generatedFilesDirectory)
         }
     }
 }
