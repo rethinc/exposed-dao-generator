@@ -17,7 +17,8 @@ class DaoGenerator(
         }.filter { !templates.isGeneratedFile(it.path) && !InfrastructureTemplates.isGeneratedFile(it.path) }
             .forEach { tableFile ->
                 val table = tableParser.parse(tableFile)
-                if(protectedTables.contains(table.name)) {
+                if(protectedTables.containsIgnoreCase(table.name)
+                ) {
                     templates.generateProtectedFiles(table, tableFile.path)
                 }
                 else {
@@ -28,4 +29,8 @@ class DaoGenerator(
 
     private fun File.isKotlinFile(): Boolean =
         this.extension == "kt"
+
+    private fun List<String>.containsIgnoreCase(s: String, ignoreCase: Boolean = false): Boolean {
+        return any { it.equals(s, ignoreCase) }
+    }
 }
