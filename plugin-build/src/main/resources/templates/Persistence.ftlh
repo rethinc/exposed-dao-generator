@@ -45,7 +45,7 @@ class PersistenceDefault : Persistence {
 
     override fun <T> execute(userId: String, block: () -> T): T {
         return transaction {
-            this.exec("""SET LOCAL SESSION AUTHORIZATION "$userId";""")
+            this.exec("SET LOCAL persistence.authenticated_user_id = '$userId';")
             block()
         }
     }
