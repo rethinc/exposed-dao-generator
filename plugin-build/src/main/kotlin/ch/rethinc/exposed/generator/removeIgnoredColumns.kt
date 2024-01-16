@@ -1,8 +1,9 @@
 package ch.rethinc.exposed.generator
 
 import java.io.File
+import java.io.Serializable
 
-data class IgnoredColumn(val table: String, val column: String)
+data class IgnoredColumn(val table: String, val column: String) : Serializable
 
 fun removeIgnoredColumns(directory: File, ignoredColumns: List<IgnoredColumn>) {
     ignoredColumns.forEach { ignoredColumn ->
