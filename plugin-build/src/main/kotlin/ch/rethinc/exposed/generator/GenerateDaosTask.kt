@@ -27,7 +27,10 @@ abstract class GenerateDaosTask : DefaultTask() {
     abstract val migrationTimeoutMinutes: Property<Long>
 
     @get:Input
-    abstract val protectedEntityNames: ListProperty<String>
+    abstract val defaultDaoAccessPolicy: Property<DaoAccessPolicy>
+
+    @get:Input
+    abstract val daoAccessPolicyExceptionEntityNames: ListProperty<String>
 
     @get:Input
     abstract val ignoredColumns: ListProperty<IgnoredColumn>
@@ -57,7 +60,12 @@ abstract class GenerateDaosTask : DefaultTask() {
             postProcessTableFiles(generatedFilesDirectory)
             removeIgnoredColumns(generatedFilesDirectory, ignoredColumns.getOrElse(emptyList()))
             InfrastructureGenerator(InfrastructureTemplates).generateFiles(packageName.get(), generatedFilesDirectory)
-            DaoGenerator(TableParser, DaoTemplates, protectedEntityNames.getOrElse(emptyList())).generateFiles(generatedFilesDirectory)
+            DaoGenerator(
+                TableParser,
+                DaoTemplates,
+                defaultDaoAccessPolicy.getOrElse(DaoAccessPolicy.PUBLIC),
+                daoAccessPolicyExceptionEntityNames.getOrElse(emptyList())
+            ).generateFiles(generatedFilesDirectory)
         }
     }
 }
