@@ -18,26 +18,26 @@ abstract class AuthenticatedGenericDao<Entity : UUIDEntity, Dto>(
         entity.all().toList().map(mapToDto)
     }
 
-    fun getById(authenticatedUserId: UUID, id: UUID): Dto? = persistence.execute(authenticatedUserId) {
+    fun getById(id: UUID, authenticatedUserId: UUID): Dto? = persistence.execute(authenticatedUserId) {
         val entity = entity.findById(id)
         entity?.let {
             mapToDto(it)
         }
     }
 
-    fun create(authenticatedUserId: UUID, dto: Dto) = persistence.execute(authenticatedUserId) {
+    fun create(dto: Dto, authenticatedUserId: UUID) = persistence.execute(authenticatedUserId) {
         entity.new(id = getId(dto)) {
             this.setValuesFrom(dto)
         }
     }
 
-    fun update(authenticatedUserId: UUID, id: UUID, dto: Dto) = persistence.execute(authenticatedUserId) {
+    fun update(id: UUID, dto: Dto, authenticatedUserId: UUID) = persistence.execute(authenticatedUserId) {
         entity.findById(id)?.apply {
             this.setValuesFrom(dto)
         }
     }
 
-    fun delete(authenticatedUserId: UUID, id: UUID) = persistence.execute(authenticatedUserId) {
+    fun delete(id: UUID, authenticatedUserId: UUID) = persistence.execute(authenticatedUserId) {
         entity.findById(id)?.delete()
     }
 
