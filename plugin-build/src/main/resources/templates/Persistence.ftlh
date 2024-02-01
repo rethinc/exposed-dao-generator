@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 interface Persistence {
     fun <T> execute(block: () -> T): T
 
-    fun <T> execute(userId: String, block: () -> T): T
+    fun <T> execute(userId: UUID, block: () -> T): T
 
     fun isConnected(): Boolean
 }
@@ -43,7 +43,7 @@ class PersistenceDefault : Persistence {
         }
     }
 
-    override fun <T> execute(userId: String, block: () -> T): T {
+    override fun <T> execute(userId: UUID, block: () -> T): T {
         return transaction {
             this.exec("SET LOCAL persistence.authenticated_user_id = '$userId';")
             block()
