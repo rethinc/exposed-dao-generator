@@ -36,6 +36,10 @@ abstract class GenerateDaosTask : DefaultTask() {
     @get:Input
     abstract val ignoredColumns: ListProperty<IgnoredColumn>
 
+    init {
+        defaultDaoAccessPolicy.convention(DaoAccessPolicy.PUBLIC)
+    }
+
     @TaskAction
     fun generateDaos() {
         val databaseConfiguration = DatabaseConfiguration(
