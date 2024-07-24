@@ -34,8 +34,7 @@ object TableParser {
                 objectDeclaration.namedUnwrappedElement?.name ?: throw IllegalStateException("Object has no name")
             val classBody =
                 objectDeclaration.children.find { it.node.elementType == KtNodeTypes.CLASS_BODY }
-                    ?: throw IllegalStateException("No class body")
-            val properties = classBody.children.filter { it.node.elementType == KtNodeTypes.PROPERTY }
+            val properties = classBody?.children?.filter { it.node.elementType == KtNodeTypes.PROPERTY } ?: emptyList()
 
             return Table(
                 packageName = packageDirective?.lastChild?.text ?: "ch.rethinc.persistence",
