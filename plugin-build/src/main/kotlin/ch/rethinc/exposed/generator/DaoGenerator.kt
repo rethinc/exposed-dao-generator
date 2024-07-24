@@ -2,15 +2,10 @@ package ch.rethinc.exposed.generator
 
 import java.io.File
 
-enum class DaoAccessPolicy {
-    AUTHENTICATED,
-    PUBLIC
-}
-
 class DaoGenerator(
     private val tableParser: TableParser,
     private val templates: DaoTemplates,
-    private val defaultDaoAccessPolicy: DaoAccessPolicy,
+    private val defaultDaoAccessPolicy: GenerateDaosTask.DaoAccessPolicy,
     private val daoAccessPolicyExceptionEntityNames: List<String>
 ) {
     fun generateFiles(directory: File) {
@@ -34,10 +29,10 @@ class DaoGenerator(
 
     private fun isAuthenticated(table: Table):Boolean {
         val isException = daoAccessPolicyExceptionEntityNames.containsIgnoreCase(table.name)
-        if(defaultDaoAccessPolicy == DaoAccessPolicy.AUTHENTICATED && !isException) {
+        if(defaultDaoAccessPolicy == GenerateDaosTask.DaoAccessPolicy.AUTHENTICATED && !isException) {
             return true
         }
-        if(defaultDaoAccessPolicy == DaoAccessPolicy.PUBLIC && isException) {
+        if(defaultDaoAccessPolicy == GenerateDaosTask.DaoAccessPolicy.PUBLIC && isException) {
             return true
         }
         return false

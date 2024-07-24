@@ -12,6 +12,11 @@ import java.io.File
 
 abstract class GenerateDaosTask : DefaultTask() {
 
+    enum class DaoAccessPolicy {
+        AUTHENTICATED,
+        PUBLIC
+    }
+
     @get:OutputDirectory
     abstract val outputDirectory: DirectoryProperty
 
