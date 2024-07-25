@@ -5,7 +5,6 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -27,7 +26,7 @@ abstract class GenerateDaosTask : DefaultTask() {
     @get:Input
     abstract val migrationTimeoutMinutes: Property<Long>
 
-    @get:Input @get:Optional
+    @get:Input
     abstract val defaultDaoAccessPolicy: Property<DaoAccessPolicy>
 
     @get:Input
