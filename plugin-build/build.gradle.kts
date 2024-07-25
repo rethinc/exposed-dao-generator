@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildScript
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.7.20"
     `java-gradle-plugin`
     id("com.gradle.plugin-publish") version "1.2.1"
 }
