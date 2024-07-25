@@ -12,7 +12,7 @@ import java.io.File
 
 abstract class GenerateDaosTask : DefaultTask() {
 
-    public enum class DaoAccessPolicy {
+    enum class DaoAccessPolicy {
         AUTHENTICATED,
         PUBLIC
     }
