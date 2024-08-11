@@ -37,6 +37,9 @@ abstract class GenerateDaosTask : DefaultTask() {
     @get:Input
     abstract val ignoredColumns: ListProperty<IgnoredColumn>
 
+    @get:Input
+    abstract val ignoredTables: ListProperty<String>
+
     @TaskAction
     fun generateDaos() {
         val databaseConfiguration = DatabaseConfiguration(
@@ -55,7 +58,8 @@ abstract class GenerateDaosTask : DefaultTask() {
             ExposedCodeGenerator.generate(
                 databaseConfiguration = databaseConfiguration,
                 packageName = packageName.get(),
-                outputDirectory = outputDirectory.get()
+                outputDirectory = outputDirectory.get(),
+                ignoredTables = ignoredTables.get()
             )
             val packageDirectory = packageName.get().replace(".", "/")
             val generatedFilesDirectory = File("${outputDirectory.get().asFile.path}/$packageDirectory")

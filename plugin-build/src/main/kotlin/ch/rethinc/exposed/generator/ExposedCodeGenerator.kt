@@ -11,6 +11,7 @@ object ExposedCodeGenerator {
         databaseConfiguration: DatabaseConfiguration,
         packageName: String,
         outputDirectory: Directory,
+        ignoredTables: List<String>
     ) {
         val metadataGetter =
             MetadataGetter(
@@ -25,13 +26,15 @@ object ExposedCodeGenerator {
             )
 
 
-        val tables = metadataGetter.getTables().filterUtilTables()
+        val tables = metadataGetter.getTables().filter {
+            it.name !in ignoredTables
+        }.filterUtilTables()
             val config = ExposedCodeGeneratorConfiguration(
                 packageName = packageName,
                 generateSingleFile = false,
                 generatedFileName = null,
                 collate = null,
-                columnMappings = emptyMap()
+                columnMappings = emptyMap(),
             )
         val exposedCodeGenerator = ExposedCodeGenerator(tables, config)
         val files = exposedCodeGenerator.generateExposedTables()

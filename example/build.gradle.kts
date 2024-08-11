@@ -56,6 +56,7 @@ val generateDaos by tasks.registering(GenerateDaosTask::class) {
     migrationTimeoutMinutes.set(10)
     outputDirectory.set(File("$buildDir/tables"))
     packageName.set("ch.rethinc.persistence")
+    ignoredTables.set(listOf("person"))
 }
 
 tasks.compileKotlin.get().dependsOn(generateDaos)
