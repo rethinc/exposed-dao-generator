@@ -3,14 +3,15 @@ package ${packageName}
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 
 interface Persistence {
-    fun <T> execute(block: () -> T): T
+    fun <T> execute(block: Transaction.() -> T): T
 
-    fun <T> execute(userId: UUID, block: () -> T): T
+    fun <T> execute(userId: UUID, block: Transaction.() -> T): T
 
     fun isConnected(): Boolean
 }
@@ -38,16 +39,16 @@ class PersistenceDefault : Persistence {
         }
     }
 
-    override fun <T> execute(block: () -> T): T {
+    override fun <T> execute(block: Transaction.() -> T): T {
         return transaction {
-            block()
+            this.block()
         }
     }
 
-    override fun <T> execute(userId: UUID, block: () -> T): T {
+    override fun <T> execute(userId: UUID, block: Transaction.() -> T): T {
         return transaction {
             this.exec("SET LOCAL persistence.authenticated_user_id = '$userId';")
-            block()
+            this.block()
         }
     }
 
