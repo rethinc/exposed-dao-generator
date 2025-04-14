@@ -25,13 +25,15 @@ class PersistenceDefault : Persistence {
             username: String,
             password: String,
             driverClassName: String = "org.postgresql.Driver",
-            jdbcUrl: String = "jdbc:postgresql://$host:$port/${r"${database}"}"
+            jdbcUrl: String = "jdbc:postgresql://$host:$port/${r"${database}"}",
+            maximumPoolSize: Int = 10,
         ): Persistence {
             val hikariConfig = HikariConfig().apply {
                 this.jdbcUrl = jdbcUrl
                 this.username = username
                 this.password = password
                 this.driverClassName = driverClassName
+                this.maximumPoolSize = maximumPoolSize
             }
             val dataSource = HikariDataSource(hikariConfig)
             Database.connect(dataSource)

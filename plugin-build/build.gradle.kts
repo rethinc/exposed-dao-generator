@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "ch.rethinc"
-version = "1.3.6"
+version = "1.3.8"
 
 repositories {
     mavenCentral()
