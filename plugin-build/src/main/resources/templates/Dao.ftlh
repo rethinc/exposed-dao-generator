@@ -14,6 +14,11 @@ setValuesFrom = {
     this.${property.name} = it.${property.name}
 </#list>
 },
+setBatchInsertValuesFrom = {
+<#list properties as property>
+    this[${name}.${property.name}] = it.${property.name}
+</#list>
+},
 persistence = persistence,
 getId = { it.id },
 entity = ${name}Entity,

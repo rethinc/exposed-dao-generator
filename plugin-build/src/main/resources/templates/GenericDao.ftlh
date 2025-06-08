@@ -5,12 +5,15 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import java.util.*
 
 abstract class GenericDao<Entity : UUIDEntity, Table: UUIDTable, Dto>(
     private val mapToDto: (entity: Entity) -> Dto,
     private val getId: (dto: Dto) -> UUID,
-    val setValuesFrom: Entity.(dto: Dto) -> Unit,
+    private val setValuesFrom: Entity.(dto: Dto) -> Unit,
+    private val setBatchInsertValuesFrom: BatchInsertStatement.(dto: Dto) -> Unit,
     private val persistence: Persistence,
     private val entity: UUIDEntityClass<Entity>,
     private val table: Table
@@ -30,6 +33,12 @@ abstract class GenericDao<Entity : UUIDEntity, Table: UUIDTable, Dto>(
     fun create(dto: Dto) = persistence.execute {
         entity.new(id = getId(dto)) {
             this.setValuesFrom(dto)
+        }
+    }
+
+    fun batchCreate(dtos: List<Dto>, authenticatedUserId: UUID) = persistence.execute {
+        table.batchInsert(dtos, shouldReturnGeneratedValues = false) {
+            this.setBatchInsertValuesFrom(it)
         }
     }
 
