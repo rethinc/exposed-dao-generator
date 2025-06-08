@@ -2,16 +2,18 @@ package ${packageName}
 
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import java.util.*
 
-abstract class AuthenticatedGenericDao<Entity : UUIDEntity, Dto>(
+abstract class AuthenticatedGenericDao<Entity : UUIDEntity, Table: UUIDTable, Dto>(
     private val mapToDto: (entity: Entity) -> Dto,
     private val getId: (dto: Dto) -> UUID,
     val setValuesFrom: Entity.(dto: Dto) -> Unit,
     private val persistence: Persistence,
-    private val entity: UUIDEntityClass<Entity>
+    private val entity: UUIDEntityClass<Entity>,
+    private val table: Table,
 ) {
 
     fun all(authenticatedUserId: UUID): List<Dto> = persistence.execute(authenticatedUserId) {

@@ -1,6 +1,6 @@
 package ${packageName}
 
-class ${name}EntityDao(persistence: Persistence) : AuthenticatedGenericDao<${name}Entity, ${name}Dto>(
+class ${name}EntityDao(persistence: Persistence) : AuthenticatedGenericDao<${name}Entity, ${name}, ${name}Dto>(
 mapToDto = {
     ${name}Dto(
         id = it.id.value,
@@ -17,4 +17,5 @@ setValuesFrom = {
 persistence = persistence,
 getId = { it.id },
 entity = ${name}Entity,
+table = ${name},
 )
