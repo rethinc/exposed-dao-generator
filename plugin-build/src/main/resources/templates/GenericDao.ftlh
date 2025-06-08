@@ -9,7 +9,7 @@ import java.util.*
 abstract class GenericDao<Entity : UUIDEntity, Dto>(
     private val mapToDto: (entity: Entity) -> Dto,
     private val getId: (dto: Dto) -> UUID,
-    protected val setValuesFrom: Entity.(dto: Dto) -> Unit,
+    val setValuesFrom: Entity.(dto: Dto) -> Unit,
     private val persistence: Persistence,
     private val entity: UUIDEntityClass<Entity>
 ) {
