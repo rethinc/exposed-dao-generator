@@ -25,7 +25,7 @@ class PersistenceDefault : Persistence {
             username: String,
             password: String,
             driverClassName: String = "org.postgresql.Driver",
-            jdbcUrl: String = "jdbc:postgresql://$host:$port/${r"${database}"}",
+            jdbcUrl: String = "jdbc:postgresql://$host:$port/${r"${database}"}?rewriteBatchedStatements=true",
             maximumPoolSize: Int = 10,
         ): Persistence {
             val hikariConfig = HikariConfig().apply {
