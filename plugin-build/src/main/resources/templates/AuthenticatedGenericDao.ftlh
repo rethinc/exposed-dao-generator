@@ -3,9 +3,11 @@ package ${packageName}
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.ISqlExpressionBuilder
 import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import java.util.*
 
@@ -50,6 +52,10 @@ abstract class AuthenticatedGenericDao<Entity : UUIDEntity, Table: UUIDTable, Dt
 
     fun delete(id: UUID, authenticatedUserId: UUID) = persistence.execute(authenticatedUserId) {
         entity.findById(id)?.delete()
+    }
+
+    fun delete(authenticatedUserId: UUID, op: Table.(ISqlExpressionBuilder) -> Op<Boolean>) = persistence.execute(authenticatedUserId) {
+        table.deleteWhere(op = op)
     }
 
     fun find(authenticatedUserId: UUID, op: SqlExpressionBuilder.() -> Op<Boolean>): List<Dto> = persistence.execute(authenticatedUserId) {

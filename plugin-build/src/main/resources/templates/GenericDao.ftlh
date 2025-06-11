@@ -4,8 +4,10 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.ISqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import java.util.*
 
@@ -36,7 +38,7 @@ abstract class GenericDao<Entity : UUIDEntity, Table: UUIDTable, Dto>(
         }
     }
 
-    fun batchCreate(dtos: List<Dto>, authenticatedUserId: UUID) = persistence.execute {
+    fun batchCreate(dtos: List<Dto>) = persistence.execute {
         table.batchInsert(dtos, shouldReturnGeneratedValues = false) {
             this.setBatchInsertValuesFrom(it)
         }
@@ -50,6 +52,10 @@ abstract class GenericDao<Entity : UUIDEntity, Table: UUIDTable, Dto>(
 
     fun delete(id: UUID) = persistence.execute {
         entity.findById(id)?.delete()
+    }
+
+    fun delete(op: Table.(ISqlExpressionBuilder) -> Op<Boolean>) = persistence.execute {
+        table.deleteWhere(op = op)
     }
 
     fun find(op: SqlExpressionBuilder.() -> Op<Boolean>): List<Dto> = persistence.execute {
